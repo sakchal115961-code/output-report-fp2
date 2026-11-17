@@ -115,7 +115,6 @@ main.locked+.bar{display:none}
   </section>
   <section id="s-runs"><h2>ช่วงการผลิต</h2>
    <div id="runs"></div>
-   
    <p class="tip" id="runinfo" style="margin:10px 0 0"></p>
   </section>
   <section id="s-op"><h2>ผู้รายงาน</h2>
@@ -282,11 +281,17 @@ function confirmDlg(){
   if(!ok){$("#err").textContent="ส่งไม่สำเร็จ ข้อมูลยังอยู่ ลองส่งอีกครั้ง";return}
   live[cur]={h:(s.h+1)%24,runs:[newRun(last)],pr:[]};$("#err").textContent="";render();toast("ส่งรายงานแล้ว")});
 }
-const GAS_URL = "https://script.google.com/macros/s/AKfycby6FracxItqq8zj7ANOFZYCCtU22243Jmj_zWfWAcvOVQi4ViKeQ7xnZeuV6uOeUGvg/exec";
+
+// =========================================================================
+// วาง Web App URL (/exec) ของ Google Sheets (Output_Report_FP2) ในเครื่องหมายคำพูดด้านล่างนี้
+// =========================================================================
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyv3DAtiE6M9I0EZrh-03wVD7lvrI1ziD05UHiy4ZNBSrb9lTHOxLVeVVKekaSXjvugTw/exec";
+
 async function sendReport(payload){
   try{
     const res = await fetch(GAS_URL,{
       method:"POST",
+      redirect:"follow",
       headers:{"Content-Type":"text/plain;charset=utf-8"},
       body:JSON.stringify(payload)
     });
